@@ -1,0 +1,25 @@
+automation:
+  - id: "0000000000000000001"
+    alias: Wilgotność - Wł/Wył
+    description: "ble ble ble"
+    initial_state: on
+    trigger:
+      - platform: state
+        entity_id: sensor.wpisz_czujnik_wilgotności # <--- do zmiany
+    action:
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ states('sensor.wpisz_czujnik_wilgotności') | float < 40 }}" # <--- do zmiany
+            sequence:
+              - service: switch.turn_off
+                target:
+                  entity_id: switch.wall_plug # <--- do zmiany
+          - conditions:
+              - condition: template
+                value_template: "{{ states('sensor.wpisz_czujnik_wilgotności') | float < 50 }}" # <--- do zmiany
+            sequence:
+              - service: switch.turn_on
+                target:
+                  entity_id: switch.wall_plug # <--- do zmiany
+    mode: single
