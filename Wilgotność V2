@@ -1,0 +1,15 @@
+automation:
+  - id: "0000000000000000002"
+    alias: Wilgotność - Wł/Wył
+    description: "ble ble ble v2"
+    initial_state: on
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.wpisz_czujnik_wilgotności # <--- do zmiany
+        below: 40
+      - platform: numeric_state
+        entity_id: sensor.wpisz_czujnik_wilgotności # <--- do zmiany
+        above: 50
+    action:
+      service: "switch.turn_{{ 'on' if states('sensor.wpisz_czujnik_wilgotności') | float < 50 else 'off' }}" # <--- do zmiany
+      entity_id: switch.wall_plug # <--- do zmiany
